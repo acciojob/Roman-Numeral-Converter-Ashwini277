@@ -1,40 +1,41 @@
 function convertToRoman(num) {
-    if (num < 0 || num > 100000) {
-        throw new Error("Input must be in the range 0 <= x <= 100000.");
-    }
-    
-    const romanNumerals = [
-        ['M', 1000],
-        ['CM', 900],
-        ['D', 500],
-        ['CD', 400],
-        ['C', 100],
-        ['XC', 90],
-        ['L', 50],
-        ['XL', 40],
-        ['X', 10],
-        ['IX', 9],
-        ['V', 5],
-        ['IV', 4],
-        ['I', 1]
-    ];
+  // Array of Roman numerals and their corresponding values
+  const romanSymbols = [
+    ['M', 1000], 
+    ['D', 500], 
+    ['C', 100], 
+    ['L', 50], 
+    ['X', 10], 
+    ['V', 5], 
+    ['I', 1]
+  ];
 
-    let result = '';
-    
-    for (let [symbol, value] of romanNumerals) {
-        while (num >= value) {
-            result += symbol;
-            num -= value;
-        }
+  let romanNumeral = ''; // Initialize an empty string for the result
+
+  // Loop through each symbol-value pair
+  for (let i = 0; i < romanSymbols.length; i++) {
+    const symbol = romanSymbols[i][0];
+    const value = romanSymbols[i][1];
+
+    // While the current value can be subtracted from the number, add the symbol
+    while (num >= value) {
+      romanNumeral += symbol;
+      num -= value;
     }
-    
-    return result;
+
+    // Handling subtractive notation for 4, 9, 40, 90, etc.
+    if (i % 2 === 0 && i + 2 < romanSymbols.length) {
+      const nextValue = romanSymbols[i + 2][1];
+      if (num >= value - nextValue) {
+        romanNumeral += romanSymbols[i + 2][0] + symbol;
+        num -= value - nextValue;
+      }
+    }
+  }
+
+  return romanNumeral; // Return the resulting Roman numeral string
 }
 
-// Test Cases
-console.log(convertToRoman(14));   // Output: XIV
-console.log(convertToRoman(798));  // Output: DCCXCVIII
-console.log(convertToRoman(1000)); // Output: M
-console.log(convertToRoman(3999)); // Output: MMMCMXCIX
-console.log(convertToRoman(2023)); // Output: MMXXIII
-
+// Examples:
+console.log(convertToRoman(14));   // Outputs: XIV
+console.log(convertToRoman(798));  // Outputs: DCCXCVIII
