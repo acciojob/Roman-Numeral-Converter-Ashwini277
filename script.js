@@ -1,35 +1,40 @@
-function convertToRoman() {
-    const num = parseInt(document.getElementById('inputNumber').value);
+function convertToRoman(num) {
     if (num < 0 || num > 100000) {
-        document.getElementById('result').textContent = 'Please enter a number between 0 and 100000.';
-        return;
+        throw new Error("Input must be in the range 0 <= x <= 100000.");
     }
     
     const romanNumerals = [
-        ['M', 1000], 
-        ['CM', 900], 
-        ['D', 500], 
-        ['CD', 400], 
-        ['C', 100], 
-        ['XC', 90], 
-        ['L', 50], 
-        ['XL', 40], 
-        ['X', 10], 
-        ['IX', 9], 
-        ['V', 5], 
-        ['IV', 4], 
+        ['M', 1000],
+        ['CM', 900],
+        ['D', 500],
+        ['CD', 400],
+        ['C', 100],
+        ['XC', 90],
+        ['L', 50],
+        ['XL', 40],
+        ['X', 10],
+        ['IX', 9],
+        ['V', 5],
+        ['IV', 4],
         ['I', 1]
     ];
-    
-    let roman = '';
-    let remaining = num;
 
-    for (const [symbol, value] of romanNumerals) {
-        while (remaining >= value) {
-            roman += symbol;
-            remaining -= value;
+    let result = '';
+    
+    for (let [symbol, value] of romanNumerals) {
+        while (num >= value) {
+            result += symbol;
+            num -= value;
         }
     }
-
-    document.getElementById('result').textContent = `Roman Numeral: ${roman}`;
+    
+    return result;
 }
+
+// Test Cases
+console.log(convertToRoman(14));   // Output: XIV
+console.log(convertToRoman(798));  // Output: DCCXCVIII
+console.log(convertToRoman(1000)); // Output: M
+console.log(convertToRoman(3999)); // Output: MMMCMXCIX
+console.log(convertToRoman(2023)); // Output: MMXXIII
+
